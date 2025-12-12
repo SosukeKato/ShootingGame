@@ -1,16 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField]
+    GameObject _player;
+    [SerializeField]
+    GameObject[] _enemy;
+    [SerializeField]
+    Image _tileImage;
+    [SerializeField]
+    Image _gameOverImage;
+    [SerializeField]
+    Image _gameClearImage;
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         
