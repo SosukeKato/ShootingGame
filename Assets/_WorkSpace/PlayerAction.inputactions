@@ -14,6 +14,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "TargetMove",
+                    "type": "Value",
+                    "id": "db30704d-69e1-43e9-8af3-239a8442f7a4",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -82,6 +91,17 @@
                     "action": "PlayerMove",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "43892092-29d1-4fcc-9ea4-b3593f6301cd",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TargetMove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
