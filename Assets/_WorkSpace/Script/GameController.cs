@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Reflection;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
     Transform _tr;
+    PlayerInput _pi;
 
     [SerializeField]
     GameObject _player;
@@ -28,6 +28,7 @@ public class GameController : MonoBehaviour
     void Awake()
     {
         _tr = transform;
+        _pi = _player.GetComponent<PlayerInput>();
     }
 
     void Start()
