@@ -25,6 +25,9 @@ public class GameController : MonoBehaviour
     Image _gameClearImage;
 
     string _state;
+
+    bool _isPause;
+
     void Awake()
     {
         _tr = transform;
