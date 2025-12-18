@@ -5,11 +5,12 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
     Transform _tr;
-    [SerializeField]
     PlayerInput _pi;
 
     [SerializeField]
     GameObject _player;
+    [SerializeField]
+    GameObject _bulletTarget;
     [SerializeField]
     GameObject[] _enemy;
     [SerializeField]
