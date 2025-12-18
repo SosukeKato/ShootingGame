@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
     Transform _tr;
+    [SerializeField]
     PlayerInput _pi;
 
     [SerializeField]
