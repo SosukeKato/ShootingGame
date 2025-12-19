@@ -6,7 +6,6 @@ public class GameController : MonoBehaviour
 {
     Transform _tr;
     Transform _pt;
-    Keyboard _corrent;
 
     [SerializeField]
     PlayerInput _pi;
@@ -24,7 +23,7 @@ public class GameController : MonoBehaviour
     [SerializeField]
     GameObject[] _stage;
     [SerializeField]
-    Image _tileImage;
+    Image _titleImage;
     [SerializeField]
     Image _gameOverImage;
     [SerializeField]
@@ -52,8 +51,7 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        _corrent = Keyboard.current;
-        if (_corrent == null)
+        if (_pi == null)
         {
             return;
         }
@@ -63,7 +61,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            _moveInput = new Vector2(0, 0);
+            _moveInput = new Vector3(0, 0, 0);
         }
         _pt.position += new Vector3(_moveInput.x, _moveInput.y, 0).normalized * Time.deltaTime * _moveSpeed;
     }
