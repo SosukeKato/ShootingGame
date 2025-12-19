@@ -5,6 +5,10 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
     Transform _tr;
+    Transform _pt;
+    Keyboard _corrent;
+
+    [SerializeField]
     PlayerInput _pi;
 
     [SerializeField]
@@ -25,6 +29,10 @@ public class GameController : MonoBehaviour
     Image _gameOverImage;
     [SerializeField]
     Image _gameClearImage;
+    [SerializeField]
+    float _moveSpeed;
+
+    Vector2 _moveInput;
 
     string _state;
 
@@ -33,6 +41,7 @@ public class GameController : MonoBehaviour
     void Awake()
     {
         _tr = transform;
+        _pt = _player.transform;
         _pi = _player.GetComponent<PlayerInput>();
     }
 
@@ -43,17 +52,19 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        switch(_state)
+        _corrent = Keyboard.current;
+        if (_corrent == null)
         {
-            case "Title":
-                
-                break;
-            case "InGame":
-                
-                break;
-            case "Result":
-
-                break ;
+            return;
         }
+        if (_pi.actions["PlayerMove"].IsPressed())
+        {
+            _moveInput = _pi.actions["PlayerMove"].ReadValue<Vector2>();
+        }
+        else
+        {
+            _moveInput = new Vector2(0, 0);
+        }
+        _pt.position += new Vector3(_moveInput.x, _moveInput.y, 0).normalized * Time.deltaTime * _moveSpeed;
     }
 }

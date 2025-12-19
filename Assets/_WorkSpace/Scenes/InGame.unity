@@ -618,6 +618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 459bab3bf1be1c8489906ef4add3ad67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pi: {fileID: 1606179683}
   _player: {fileID: 1606179679}
   _bulletTarget: {fileID: 844711426}
   _enemy: []
@@ -627,6 +628,7 @@ MonoBehaviour:
   _tileImage: {fileID: 445730671}
   _gameOverImage: {fileID: 0}
   _gameClearImage: {fileID: 0}
+  _moveSpeed: 5
 --- !u!4 &664769169
 Transform:
   m_ObjectHideFlags: 0
