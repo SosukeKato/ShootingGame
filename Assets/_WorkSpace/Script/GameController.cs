@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour
 {
     Transform _tr;
     Transform _pt;
+    Transform _tt;
 
     [SerializeField]
     PlayerInput _pi;
@@ -13,7 +14,7 @@ public class GameController : MonoBehaviour
     [SerializeField]
     GameObject _player;
     [SerializeField]
-    GameObject _bulletTarget;
+    GameObject _target;
     [SerializeField]
     GameObject[] _enemy;
     [SerializeField]
@@ -31,7 +32,8 @@ public class GameController : MonoBehaviour
     [SerializeField]
     float _moveSpeed;
 
-    Vector2 _moveInput;
+    Vector2 _playerMoveInput;
+    Vector2 _targetMoveInput;
 
     string _state;
 
@@ -41,6 +43,7 @@ public class GameController : MonoBehaviour
     {
         _tr = transform;
         _pt = _player.transform;
+        _tt = _target.transform;
         _pi = GetComponent<PlayerInput>();
     }
 
@@ -61,13 +64,27 @@ public class GameController : MonoBehaviour
         }
         if (_pi.actions["PlayerMove"].IsPressed())
         {
-            _moveInput = _pi.actions["PlayerMove"].ReadValue<Vector2>();
+            _playerMoveInput = _pi.actions["PlayerMove"].ReadValue<Vector2>();
         }
         else
         {
-            _moveInput = new Vector3(0, 0, 0);
+            _playerMoveInput = new Vector3(0, 0, 0);
         }
-        _pt.position += new Vector3(_moveInput.x, _moveInput.y, 0).normalized * Time.deltaTime * _moveSpeed;
+        _pt.position += new Vector3(_playerMoveInput.x, _playerMoveInput.y, 0).normalized * Time.deltaTime * _moveSpeed;
+
+        #endregion
+
+        #region è∆èÄÇÃà⁄ìÆ
+
+        if (_pi.actions["TargetMove"].IsPressed())
+        {
+            _targetMoveInput = _pi.actions["TargetMove"].ReadValue<Vector2>();
+        }
+        else
+        {
+            _targetMoveInput = new Vector3(0, 0, 0);
+        }
+        _tt.position += new Vector3(_targetMoveInput.x, _targetMoveInput.y, 0).normalized * Time.deltaTime * _moveSpeed;
 
         #endregion
 

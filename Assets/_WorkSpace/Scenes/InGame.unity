@@ -621,8 +621,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pi: {fileID: 0}
   _player: {fileID: 1606179679}
-  _target: {fileID: 0}
-  _bulletTarget: {fileID: 844711426}
+  _target: {fileID: 844711426}
   _enemy: []
   _playerBullet: {fileID: 0}
   _enemyBullet: []
