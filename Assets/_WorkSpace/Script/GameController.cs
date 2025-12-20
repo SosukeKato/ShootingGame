@@ -31,6 +31,8 @@ public class GameController : MonoBehaviour
     Image _gameClearImage;
     [SerializeField]
     float _moveSpeed;
+    [SerializeField]
+    int _firstFormEndTime;
 
     Vector2 _playerMoveInput;
     Vector2 _targetMoveInput;
@@ -38,6 +40,8 @@ public class GameController : MonoBehaviour
     string _state;
 
     bool _isPause;
+
+    float _timer;
 
     void Awake()
     {
@@ -86,6 +90,13 @@ public class GameController : MonoBehaviour
         }
         _tt.position += new Vector3(_targetMoveInput.x, _targetMoveInput.y, 0).normalized * Time.deltaTime * _moveSpeed;
 
+        #endregion
+
+        #region PlayerÇÃçUåÇ
+        if (_pi.actions["PlayerAttack"].IsPressed())
+        {
+            Debug.Log("Attack");
+        }
         #endregion
 
         #endregion
