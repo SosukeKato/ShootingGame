@@ -41,8 +41,6 @@ public class GameController : MonoBehaviour
 
     bool _isPause;
 
-    float _timer;
-
     void Awake()
     {
         _tr = transform;
