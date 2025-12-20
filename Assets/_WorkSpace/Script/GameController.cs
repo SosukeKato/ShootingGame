@@ -41,7 +41,7 @@ public class GameController : MonoBehaviour
     {
         _tr = transform;
         _pt = _player.transform;
-        _pi = _player.GetComponent<PlayerInput>();
+        _pi = GetComponent<PlayerInput>();
     }
 
     void Start()
@@ -51,6 +51,10 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
+        #region Player‚Ìˆ—
+
+        #region Player‚ÌˆÚ“®
+
         if (_pi == null)
         {
             return;
@@ -64,5 +68,9 @@ public class GameController : MonoBehaviour
             _moveInput = new Vector3(0, 0, 0);
         }
         _pt.position += new Vector3(_moveInput.x, _moveInput.y, 0).normalized * Time.deltaTime * _moveSpeed;
+
+        #endregion
+
+        #endregion
     }
 }
