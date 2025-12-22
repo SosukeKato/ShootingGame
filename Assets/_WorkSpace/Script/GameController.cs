@@ -91,7 +91,7 @@ public class GameController : MonoBehaviour
         #endregion
 
         #region PlayerÇÃçUåÇ
-        if (_pi.actions["PlayerAttack"].IsPressed())
+        if (_pi.actions["PlayerAttack"].WasPressedThisFrame())
         {
             Debug.Log("Attack");
         }
