@@ -11,27 +11,27 @@ public class GameController : MonoBehaviour
     [SerializeField]
     PlayerInput _pi;
 
-    [SerializeField]
+    [SerializeField,Header("Player")]
     GameObject _player;
-    [SerializeField]
+    [SerializeField,Header("Æ€")]
     GameObject _target;
-    [SerializeField]
+    [SerializeField,Header("Enemy")]
     GameObject[] _enemy;
-    [SerializeField]
+    [SerializeField,Header("Player‚ª”­Ë‚·‚éBullet‚ÌPrefab")]
     GameObject _playerBullet;
-    [SerializeField]
+    [SerializeField,Header("Enemy‚ª”­Ë‚·‚éBullet‚ÌPrefab")]
     GameObject[] _enemyBullet;
-    [SerializeField]
-    GameObject[] _stage;
-    [SerializeField]
+    [SerializeField,Header("Stage‚Ì”wŒi‚É‚È‚éImage")]
+    Image[] _stage;
+    [SerializeField,Header("Title‚Ì”wŒi‚É‚È‚éImage")]
     Image _titleImage;
-    [SerializeField]
+    [SerializeField,Header("GameOver‚Ì”wŒi‚É‚È‚éImage")]
     Image _gameOverImage;
-    [SerializeField]
+    [SerializeField,Header("GameClear‚Ì”wŒi‚É‚È‚éImage")]
     Image _gameClearImage;
-    [SerializeField]
+    [SerializeField,Header("Player‚ÆÆ€‚ÌˆÚ“®‘¬“x")]
     float _moveSpeed;
-    [SerializeField]
+    [SerializeField,Header("Enemy‚Ìó‘Ô•Ï‰»1’iŠK–Ú‚ªI‚í‚éŠÔ")]
     int _firstFormEndTime;
 
     Vector2 _playerMoveInput;
