@@ -2,11 +2,21 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class PoolData
+{
+    public GameObject prefab;
+    public int _poolSize;
+}
+
 public class GameController : MonoBehaviour
 {
     Transform _tr;
     Transform _pt;
     Transform _tt;
+
+    [SerializeField]
+    PoolData[] _pdArray;
 
     [SerializeField]
     PlayerInput _pi;
