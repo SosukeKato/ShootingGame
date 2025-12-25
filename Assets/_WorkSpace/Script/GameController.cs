@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -51,12 +52,18 @@ public class GameController : MonoBehaviour
 
     bool _isPause;
 
+    Queue<GameObject>[] _bulletPoolArray;
+
     void Awake()
     {
         _tr = transform;
         _pt = _player.transform;
         _tt = _target.transform;
         _pi = GetComponent<PlayerInput>();
+
+        #region Pool‚Ì‰Šú‰»ˆ—
+        _bulletPoolArray = new Queue<GameObject>[_pdArray.Length];
+        #endregion
     }
 
     void Start()

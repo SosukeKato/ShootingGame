@@ -627,7 +627,7 @@ MonoBehaviour:
   _playerBullet: {fileID: 0}
   _enemyBullet: []
   _stage: []
-  _titleImage: {fileID: 0}
+  _titleImage: {fileID: 445730671}
   _gameOverImage: {fileID: 0}
   _gameClearImage: {fileID: 0}
   _moveSpeed: 5
