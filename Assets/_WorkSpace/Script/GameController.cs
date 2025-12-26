@@ -63,6 +63,16 @@ public class GameController : MonoBehaviour
 
         #region Pool‚Ì‰Šú‰»ˆ—
         _bulletPoolArray = new Queue<GameObject>[_pdArray.Length];
+
+        for (int i= 0; i < _pdArray.Length; i++)
+        {
+            _bulletPoolArray[i] = new Queue<GameObject>();
+            for (int j = 0; j < _pdArray[i]._poolSize;j++)
+            {
+                GameObject bullet = Instantiate(_pdArray[i].prefab);
+                bullet.SetActive(false);
+            }
+        }
         #endregion
     }
 
