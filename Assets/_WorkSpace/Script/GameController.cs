@@ -22,6 +22,8 @@ public class GameController : MonoBehaviour
     [SerializeField]
     PlayerInput _pi;
 
+    [SerializeField, Header("Poolの親オブジェクト")]
+    Transform _parent;
     [SerializeField,Header("Player")]
     GameObject _player;
     [SerializeField,Header("照準")]
@@ -71,6 +73,8 @@ public class GameController : MonoBehaviour
             {
                 GameObject bullet = Instantiate(_pdArray[i].prefab);
                 bullet.SetActive(false);
+                bullet.transform.SetParent(_parent);
+                _bulletPoolArray[i].Enqueue(bullet);
             }
         }
         #endregion
