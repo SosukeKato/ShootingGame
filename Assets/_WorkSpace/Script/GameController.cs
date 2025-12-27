@@ -130,4 +130,20 @@ public class GameController : MonoBehaviour
 
         #endregion
     }
+
+    GameObject GetBullet(int index)
+    {
+        if (index < 0 || index >= _bulletPoolArray.Length)
+        {
+            Debug.LogError($"インデックス{index}が範囲外までいっちゃったやでどうするやで？");
+            return null;
+        }
+
+        return null;
+    }
+
+    void SpawnBullet(int index)
+    {
+        
+    }
 }
