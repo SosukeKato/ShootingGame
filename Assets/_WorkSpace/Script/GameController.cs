@@ -131,6 +131,7 @@ public class GameController : MonoBehaviour
         #endregion
     }
 
+    #region Poolからオブジェクトを取得する処理
     GameObject GetBullet(int index)
     {
         if (index < 0 || index >= _bulletPoolArray.Length)
@@ -139,8 +140,16 @@ public class GameController : MonoBehaviour
             return null;
         }
 
+        GameObject bullet;
+
+        if (_bulletPoolArray[index].Count > 0)
+        {
+            bullet = _bulletPoolArray[index].Dequeue();
+        }
+
         return null;
     }
+    #endregion
 
     void SpawnBullet(int index)
     {
