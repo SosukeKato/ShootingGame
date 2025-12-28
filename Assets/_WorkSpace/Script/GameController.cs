@@ -153,6 +153,8 @@ public class GameController : MonoBehaviour
             Debug.LogWarning("‘«‚è‚È‚©‚Á‚½‚©‚çd•û‚È‚¢‚µì‚Á‚Ä‚â‚é‚â‚Å");
         }
 
+        bullet.SetActive(true);
+
         return null;
     }
     #endregion
