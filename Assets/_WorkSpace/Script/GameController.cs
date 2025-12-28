@@ -146,6 +146,12 @@ public class GameController : MonoBehaviour
         {
             bullet = _bulletPoolArray[index].Dequeue();
         }
+        else
+        {
+            bullet = Instantiate(_pdArray[index].prefab);
+            bullet.transform.SetParent(_parent);
+            Debug.LogWarning("‘«‚è‚È‚©‚Á‚½‚©‚çd•û‚È‚¢‚µì‚Á‚Ä‚â‚é‚â‚Å");
+        }
 
         return null;
     }
