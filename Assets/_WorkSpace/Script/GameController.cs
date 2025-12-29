@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class PoolData
 {
     public GameObject prefab;
+    public Transform muzzle;
     public int _poolSize;
 }
 
@@ -161,6 +162,6 @@ public class GameController : MonoBehaviour
 
     void SpawnBullet(int index)
     {
-        
+        GameObject bullet = GetBullet(index);
     }
 }
