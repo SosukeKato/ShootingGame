@@ -163,5 +163,7 @@ public class GameController : MonoBehaviour
     void SpawnBullet(int index)
     {
         GameObject bullet = GetBullet(index);
+
+        bullet.transform.SetPositionAndRotation(_pdArray[1].muzzle.position, Quaternion.identity);
     }
 }
