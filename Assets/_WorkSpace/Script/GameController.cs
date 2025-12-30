@@ -167,6 +167,12 @@ public class GameController : MonoBehaviour
         {
             return;
         }
+
+        if (index < 0 || index >= _bulletPoolArray.Length)
+        {
+            Debug.LogError($"インデックス{index}が範囲外までいっちゃったやでどうするやで？");
+            return;
+        }
     }
     #endregion
 
