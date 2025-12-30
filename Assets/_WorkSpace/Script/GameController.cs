@@ -173,6 +173,10 @@ public class GameController : MonoBehaviour
             Debug.LogError($"インデックス{index}が範囲外までいっちゃったやでどうするやで？");
             return;
         }
+
+        bullet.SetActive(false);
+        bullet.transform.SetParent(_parent);
+        _bulletPoolArray[index].Enqueue(bullet);
     }
     #endregion
 
