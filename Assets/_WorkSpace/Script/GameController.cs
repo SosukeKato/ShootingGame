@@ -160,6 +160,16 @@ public class GameController : MonoBehaviour
     }
     #endregion
 
+    #region Poolにオブジェクトを返却する処理
+    void ReturnBullet(int index, GameObject bullet)
+    {
+        if (bullet == null)
+        {
+            return;
+        }
+    }
+    #endregion
+
     void SpawnBullet(int index)
     {
         GameObject bullet = GetBullet(index);
