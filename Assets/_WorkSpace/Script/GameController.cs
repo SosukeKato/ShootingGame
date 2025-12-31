@@ -45,6 +45,14 @@ public class GameController : MonoBehaviour
     Image _gameClearImage;
     [SerializeField,Header("Player‚ÆÆ€‚ÌˆÚ“®‘¬“x")]
     float _moveSpeed;
+    [SerializeField,Header("Field‚ÌX‚Ì”ÍˆÍ‰ºŒÀ")]
+    float _fieldMinX;
+    [SerializeField,Header("Field‚ÌX‚Ì”ÍˆÍãŒÀ")]
+    float _fieldMaxX;
+    [SerializeField,Header("Field‚ÌY‚Ì”ÍˆÍ‰ºŒÀ")]
+    float _fieldMinY;
+    [SerializeField,Header("Field‚ÌY‚Ì”ÍˆÍãŒÀ")]
+    float _fieldMaxY;
     [SerializeField,Header("Enemy‚Ìó‘Ô•Ï‰»1’iŠK–Ú‚ªI‚í‚éŠÔ")]
     int _firstFormEndTime;
 
@@ -53,10 +61,6 @@ public class GameController : MonoBehaviour
 
     Vector3 _playerPos;
 
-    float _playerMinX;
-    float _playerMaxX;
-    float _playerMinY;
-    float _playerMaxY;
 
     string _state;
 
@@ -118,8 +122,8 @@ public class GameController : MonoBehaviour
         #region Player‚ÌPositionClamp
         _playerPos = _pt.position;
 
-        _playerPos.x = Mathf.Clamp(_playerPos.x, _playerMinX, _playerMaxX);
-        _playerPos.y = Mathf.Clamp(_playerPos.y, _playerMinY, _playerMaxY);
+        _playerPos.x = Mathf.Clamp(_playerPos.x, _fieldMinX, _fieldMaxX);
+        _playerPos.y = Mathf.Clamp(_playerPos.y, _fieldMinY, _fieldMaxY);
 
         _pt.position = _playerPos;
         #endregion
