@@ -60,7 +60,7 @@ public class GameController : MonoBehaviour
     Vector2 _targetMoveInput;
 
     Vector3 _playerPos;
-
+    Vector3 _targetPos;
 
     string _state;
 
@@ -119,13 +119,15 @@ public class GameController : MonoBehaviour
 
         #endregion
 
-        #region Player‚ÌPositionClamp
+        #region Player‚ÌˆÚ“®”ÍˆÍ§ŒÀ
+
         _playerPos = _pt.position;
 
         _playerPos.x = Mathf.Clamp(_playerPos.x, _fieldMinX, _fieldMaxX);
         _playerPos.y = Mathf.Clamp(_playerPos.y, _fieldMinY, _fieldMaxY);
 
         _pt.position = _playerPos;
+
         #endregion
 
         #region Æ€‚ÌˆÚ“®
@@ -142,11 +144,24 @@ public class GameController : MonoBehaviour
 
         #endregion
 
+        #region Æ€‚ÌˆÚ“®”ÍˆÍ§ŒÀ
+
+        _targetPos = _tt.position;
+
+        _targetPos.x = Mathf.Clamp(_targetPos.x, _fieldMinX, _fieldMaxX);
+        _targetPos.y = Mathf.Clamp(_targetPos.y, _fieldMinY, _fieldMaxY);
+
+        _tt.position = _targetPos;
+
+        #endregion
+
         #region Player‚ÌUŒ‚
+
         if (_pi.actions["PlayerAttack"].WasPressedThisFrame())
         {
             Debug.Log("Attack");
         }
+
         #endregion
 
         #endregion
