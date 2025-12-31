@@ -51,6 +51,13 @@ public class GameController : MonoBehaviour
     Vector2 _playerMoveInput;
     Vector2 _targetMoveInput;
 
+    Vector3 _playerPos;
+
+    float _playerMinX;
+    float _playerMaxX;
+    float _playerMinY;
+    float _playerMaxY;
+
     string _state;
 
     bool _isPause;
@@ -106,6 +113,15 @@ public class GameController : MonoBehaviour
         }
         _pt.position += new Vector3(_playerMoveInput.x, _playerMoveInput.y, 0).normalized * Time.deltaTime * _moveSpeed;
 
+        #endregion
+
+        #region PlayerÇÃPositionClamp
+        _playerPos = _pt.position;
+
+        _playerPos.x = Mathf.Clamp(_playerPos.x, _playerMinX, _playerMaxX);
+        _playerPos.y = Mathf.Clamp(_playerPos.y, _playerMinY, _playerMaxY);
+
+        _pt.position = _playerPos;
         #endregion
 
         #region è∆èÄÇÃà⁄ìÆ
