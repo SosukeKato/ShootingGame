@@ -215,10 +215,12 @@ public class GameController : MonoBehaviour
     }
     #endregion
 
+    #region Pool内のオブジェクトの生成処理
     void SpawnBullet(int index)
     {
         GameObject bullet = GetBullet(index);
 
         bullet.transform.SetPositionAndRotation(_pdArray[1].muzzle.position, Quaternion.identity);
     }
+    #endregion
 }

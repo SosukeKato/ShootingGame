@@ -625,13 +625,18 @@ MonoBehaviour:
   _player: {fileID: 1606179679}
   _target: {fileID: 844711426}
   _enemy: []
-  _playerBullet: {fileID: 0}
+  _playerBullet: {fileID: 621680620640410385, guid: 5ba6791e96d87a241b600efcc0aed552,
+    type: 3}
   _enemyBullet: []
   _stage: []
   _titleImage: {fileID: 445730671}
   _gameOverImage: {fileID: 0}
   _gameClearImage: {fileID: 0}
   _moveSpeed: 5
+  _fieldMinX: 0
+  _fieldMaxX: 0
+  _fieldMinY: 0
+  _fieldMaxY: 0
   _firstFormEndTime: 0
 --- !u!4 &664769169
 Transform:
