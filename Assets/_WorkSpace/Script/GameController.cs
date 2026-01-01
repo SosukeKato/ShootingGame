@@ -159,7 +159,7 @@ public class GameController : MonoBehaviour
 
         if (_pi.actions["PlayerAttack"].WasPressedThisFrame())
         {
-            Debug.Log("Attack");
+            SpawnBullet(0);
         }
 
         #endregion
