@@ -55,12 +55,16 @@ public class GameController : MonoBehaviour
     float _fieldMaxY;
     [SerializeField,Header("Enemy‚Ìó‘Ô•Ï‰»1’iŠK–Ú‚ªI‚í‚éŽžŠÔ")]
     int _firstFormEndTime;
+    [SerializeField, Header("Enemy‚ÌHP‚ÌÅ‘å’l")]
+    int _enemyMaxHP;
 
     Vector2 _playerMoveInput;
     Vector2 _targetMoveInput;
 
     Vector3 _playerPos;
     Vector3 _targetPos;
+
+    int _enemyHP;
 
     string _state;
 
@@ -130,6 +134,15 @@ public class GameController : MonoBehaviour
 
         #endregion
 
+        #region Player‚ÌUŒ‚
+
+        if (_pi.actions["PlayerAttack"].WasPressedThisFrame())
+        {
+            SpawnBullet(0);
+        }
+
+        #endregion
+
         #region Æ€‚ÌˆÚ“®
 
         if (_pi.actions["TargetMove"].IsPressed())
@@ -155,11 +168,19 @@ public class GameController : MonoBehaviour
 
         #endregion
 
-        #region Player‚ÌUŒ‚
+        #endregion
 
-        if (_pi.actions["PlayerAttack"].WasPressedThisFrame())
+        #region Enemy‚Ìˆ—
+
+        #region Enemy‚ÌHP‚Ìˆ—
+        
+        if (_enemyHP > _enemyMaxHP)
         {
-            SpawnBullet(0);
+            _enemyHP = _enemyMaxHP;
+        }
+        else if (_enemyHP <= 0)
+        {
+            Debug.Log("“G‚ª“|‚³‚ê‚½‚ç‚µ‚¢‚ËB‚¨‘O‚ÌŸ‚¿A‰½‚ÅŸ‚Á‚½‚©–¾“ú‚Ü‚Å‚Él‚¦‚Æ‚¢‚Ä‚­‚¾‚³‚¢");
         }
 
         #endregion
