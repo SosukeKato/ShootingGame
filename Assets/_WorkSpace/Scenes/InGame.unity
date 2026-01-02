@@ -619,9 +619,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 459bab3bf1be1c8489906ef4add3ad67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pdArray: []
-  _pi: {fileID: 0}
-  _parent: {fileID: 0}
+  _pdArray:
+  - prefab: {fileID: 621680620640410385, guid: 5ba6791e96d87a241b600efcc0aed552, type: 3}
+    muzzle: {fileID: 1606179682}
+    _poolSize: 10
+  _pi: {fileID: 664769170}
+  _parent: {fileID: 664769169}
   _player: {fileID: 1606179679}
   _target: {fileID: 844711426}
   _enemy: []
