@@ -117,7 +117,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            _playerMoveInput = new Vector3(0, 0, 0);
+            _playerMoveInput = Vector2.zero;
         }
         _pt.position += new Vector3(_playerMoveInput.x, _playerMoveInput.y, 0).normalized * Time.deltaTime * _moveSpeed;
 
@@ -152,7 +152,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            _targetMoveInput = new Vector3(0, 0, 0);
+            _targetMoveInput = Vector2.zero;
         }
         _tt.position += new Vector3(_targetMoveInput.x, _targetMoveInput.y, 0).normalized * Time.deltaTime * _moveSpeed;
 
@@ -188,7 +188,7 @@ public class GameController : MonoBehaviour
 
         #region EnemyÇÃçUåÇ
 
-        
+        SpawnBullet(1);
 
         #endregion
 
