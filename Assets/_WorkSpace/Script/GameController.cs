@@ -139,6 +139,7 @@ public class GameController : MonoBehaviour
         if (_pi.actions["PlayerAttack"].WasPressedThisFrame())
         {
             SpawnBullet(0);
+
         }
 
         #endregion
@@ -182,6 +183,12 @@ public class GameController : MonoBehaviour
         {
             Debug.Log("敵が倒されたらしいね。お前の勝ち、何で勝ったか明日までに考えといてください");
         }
+
+        #endregion
+
+        #region Enemyの攻撃
+
+        
 
         #endregion
 
@@ -241,7 +248,7 @@ public class GameController : MonoBehaviour
     {
         GameObject bullet = GetBullet(index);
 
-        bullet.transform.SetPositionAndRotation(_pdArray[1].muzzle.position, Quaternion.identity);
+        bullet.transform.SetPositionAndRotation(_pdArray[index].muzzle.position, Quaternion.identity);
     }
     #endregion
 }
