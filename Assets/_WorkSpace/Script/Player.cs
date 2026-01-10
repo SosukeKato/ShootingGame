@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        #region à⁄ìÆîÕàÕêßå¿
         _playerPosition.x = Mathf.Clamp(_playerPosition.x, _clampX.x, _clampX.y);
         _playerPosition.y = Mathf.Clamp(_playerPosition.y, _clampY.x, _clampY.y);
         _targetPosition.x = Mathf.Clamp(_targetPosition.x, _clampX.x, _clampX.y);
@@ -30,5 +31,8 @@ public class Player : MonoBehaviour
 
         _tr.position = _playerPosition;
         _target.position = _targetPosition;
+        #endregion
+
+
     }
 }
