@@ -45,14 +45,6 @@ public class GameController : MonoBehaviour
     Image _gameClearImage;
     [SerializeField,Header("Playerと照準の移動速度")]
     float _moveSpeed;
-    [SerializeField,Header("FieldのXの範囲下限")]
-    float _fieldMinX;
-    [SerializeField,Header("FieldのXの範囲上限")]
-    float _fieldMaxX;
-    [SerializeField,Header("FieldのYの範囲下限")]
-    float _fieldMinY;
-    [SerializeField,Header("FieldのYの範囲上限")]
-    float _fieldMaxY;
     [SerializeField,Header("Enemyの状態変化1段階目が終わる時間")]
     int _firstFormEndTime;
     [SerializeField, Header("EnemyのHPの最大値")]
