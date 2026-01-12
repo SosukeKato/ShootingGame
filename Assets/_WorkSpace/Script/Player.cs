@@ -11,11 +11,14 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     Transform _target;
+    [SerializeField]
+    int _moveSpeed;
 
     Vector2 _playerPosition;
     Vector2 _targetPosition;
     Vector2 _fieldClampX;
     Vector2 _fieldClampY;
+    Vector2 _playerMoveInput;
     void Awake()
     {
         _tr = transform;
@@ -33,6 +36,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         #region à⁄ìÆîÕàÕêßå¿
+
         _playerPosition.x = Mathf.Clamp(_playerPosition.x, _fieldClampX.x, _fieldClampX.y);
         _playerPosition.y = Mathf.Clamp(_playerPosition.y, _fieldClampY.x, _fieldClampY.y);
         _targetPosition.x = Mathf.Clamp(_targetPosition.x, _fieldClampX.x, _fieldClampX.y);
@@ -40,11 +44,28 @@ public class Player : MonoBehaviour
 
         _tr.position = _playerPosition;
         _target.position = _targetPosition;
+
         #endregion
 
         #region à⁄ìÆ
 
+        #region Player
 
+        if (_pi == null)
+        {
+            return;
+        }
+        if (_pm.IsPressed())
+        {
+            _playerMoveInput = _pm.ReadValue<Vector2>();
+        }
+        else
+        {
+            _playerMoveInput = Vector2.zero;
+        }
+        _tr.position += new Vector3(_playerMoveInput.x, _playerMoveInput.y, 0).normalized * Time.deltaTime * _moveSpeed;
+
+        #endregion
 
         #endregion
     }
