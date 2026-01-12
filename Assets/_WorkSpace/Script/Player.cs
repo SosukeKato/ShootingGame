@@ -1,8 +1,13 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
     Transform _tr;
+    PlayerInput _pi;
+    InputAction _pm;
+    InputAction _pa;
+    InputAction _tm;
 
     [SerializeField]
     Transform _target;
@@ -14,6 +19,10 @@ public class Player : MonoBehaviour
     void Awake()
     {
         _tr = transform;
+        _pi = GetComponent<PlayerInput>();
+        _pm = _pi.actions["PlayerMove"];
+        _pa = _pi.actions["PlayerAttack"];
+        _tm = _pi.actions["TargetMove"];
     }
 
     void Start()
@@ -33,6 +42,10 @@ public class Player : MonoBehaviour
         _target.position = _targetPosition;
         #endregion
 
+        #region ˆÚ“®
 
+
+
+        #endregion
     }
 }
