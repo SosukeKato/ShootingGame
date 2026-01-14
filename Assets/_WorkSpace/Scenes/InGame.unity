@@ -623,11 +623,6 @@ MonoBehaviour:
   - prefab: {fileID: 621680620640410385, guid: 5ba6791e96d87a241b600efcc0aed552, type: 3}
     muzzle: {fileID: 1606179682}
     _poolSize: 10
-  - prefab: {fileID: 5941353146858163887, guid: ee918b870602cc54781af8658b74f7b8,
-      type: 3}
-    muzzle: {fileID: 1147953128}
-    _poolSize: 10
-  _pi: {fileID: 0}
   _parent: {fileID: 664769169}
   _player: {fileID: 1606179679}
   _target: {fileID: 844711426}
@@ -640,12 +635,10 @@ MonoBehaviour:
   _gameOverImage: {fileID: 962054894}
   _gameClearImage: {fileID: 1330832061}
   _moveSpeed: 5
-  _fieldMinX: -9
-  _fieldMaxX: 9
-  _fieldMinY: -4
-  _fieldMaxY: 6
   _firstFormEndTime: 0
   _enemyMaxHP: 0
+  _fieldClampX: {x: -9, y: 9}
+  _fieldClampY: {x: -4, y: 6}
 --- !u!4 &664769169
 Transform:
   m_ObjectHideFlags: 0
@@ -1071,8 +1064,6 @@ GameObject:
   - component: {fileID: 1606179682}
   - component: {fileID: 1606179681}
   - component: {fileID: 1606179680}
-  - component: {fileID: 1606179683}
-  - component: {fileID: 1606179684}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1169,49 +1160,6 @@ Transform:
   - {fileID: 844711427}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1606179683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1606179679}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: a47d45100f6739243934b0196251a080,
-    type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
---- !u!114 &1606179684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1606179679}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9a6b5cf4c9c6084cb2fa288776f6d9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1770440750
 GameObject:
   m_ObjectHideFlags: 0

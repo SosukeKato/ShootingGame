@@ -16,12 +16,10 @@ public class GameController : MonoBehaviour
     Transform _tr;
     Transform _pt;
     Transform _tt;
+    PlayerInput _pi;
 
     [SerializeField]
     PoolData[] _pdArray;
-
-    [SerializeField]
-    PlayerInput _pi;
 
     [SerializeField, Header("Poolの親オブジェクト")]
     Transform _parent;
@@ -47,14 +45,18 @@ public class GameController : MonoBehaviour
     float _moveSpeed;
     [SerializeField,Header("Enemyの状態変化1段階目が終わる時間")]
     int _firstFormEndTime;
-    [SerializeField, Header("EnemyのHPの最大値")]
+    [SerializeField,Header("EnemyのHPの最大値")]
     int _enemyMaxHP;
+    [SerializeField,Header("X軸の移動範囲制限(min,max)")]
+    Vector2 _fieldClampX;
+    [SerializeField,Header("Y軸の移動範囲制限(min,max)")]
+    Vector2 _fieldClampY;
 
     Vector2 _playerMoveInput;
     Vector2 _targetMoveInput;
 
-    Vector3 _playerPos;
-    Vector3 _targetPos;
+    Vector2 _playerPosition;
+    Vector2 _targetPosition;
 
     int _enemyHP;
 
@@ -90,14 +92,53 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        
+        _tr = transform;
+        _pt = _player.transform;
+        _tt = _target.transform;
+        _pi = GetComponent<PlayerInput>();
+
+        #region Poolの初期化処理
+        _bulletPoolArray = new Queue<GameObject>[_pdArray.Length];
+
+        for (int i = 0; i < _pdArray.Length; i++)
+        {
+            _bulletPoolArray[i] = new Queue<GameObject>();
+            for (int j = 0; j < _pdArray[i]._poolSize; j++)
+            {
+                GameObject bullet = Instantiate(_pdArray[i].prefab);
+                bullet.SetActive(false);
+                bullet.transform.SetParent(_parent);
+                _bulletPoolArray[i].Enqueue(bullet);
+            }
+        }
+        #endregion
     }
 
     void Update()
     {
         #region Playerの処理
 
+        #region Playerの攻撃
+
+        if (_pi.actions["PlayerAttack"].WasPressedThisFrame())
+        {
+            SpawnBullet(0);
+        }
+
+        #endregion
+
         #region Playerの移動
+
+        #region Playerの移動範囲制限
+
+        _playerPosition = _pt.position;
+
+        _playerPosition.x = Mathf.Clamp(_playerPosition.x, _fieldClampX.x, _fieldClampX.y);
+        _playerPosition.y = Mathf.Clamp(_playerPosition.y, _fieldClampY.x, _fieldClampY.y);
+
+        _pt.position = _playerPosition;
+
+        #endregion
 
         if (_pi == null)
         {
@@ -115,16 +156,18 @@ public class GameController : MonoBehaviour
 
         #endregion
 
-        #region Playerの攻撃
+        #region 照準の移動
 
-        if (_pi.actions["PlayerAttack"].WasPressedThisFrame())
-        {
-            SpawnBullet(0);
-        }
+        #region 照準の移動範囲制限
+
+        _targetPosition = _tt.position;
+
+        _targetPosition.x = Mathf.Clamp(_targetPosition.x, _fieldClampX.x, _fieldClampX.y);
+        _targetPosition.y = Mathf.Clamp(_targetPosition.y, _fieldClampY.x, _fieldClampY.y);
+
+        _tt.position = _targetPosition;
 
         #endregion
-
-        #region 照準の移動
 
         if (_pi.actions["TargetMove"].IsPressed())
         {
@@ -143,21 +186,19 @@ public class GameController : MonoBehaviour
         #region Enemyの処理
 
         #region EnemyのHPの処理
-        
+
         if (_enemyHP > _enemyMaxHP)
         {
             _enemyHP = _enemyMaxHP;
         }
         else if (_enemyHP <= 0)
         {
-            Debug.Log("敵が倒されたらしいね。お前の勝ち、何で勝ったか明日までに考えといてください");
+            //Debug.Log("敵が倒されたらしいね。お前の勝ち、何で勝ったか明日までに考えといてください");
         }
 
         #endregion
 
         #region Enemyの攻撃
-
-        SpawnBullet(1);
 
         #endregion
 
@@ -169,7 +210,7 @@ public class GameController : MonoBehaviour
     {
         if (index < 0 || index >= _bulletPoolArray.Length)
         {
-            Debug.LogError($"インデックス{index}が範囲外までいっちゃったやでどうするやで？");
+            Debug.LogWarning($"インデックス{index}が範囲外までいっちゃったやでどうするやで？");
             return null;
         }
 
