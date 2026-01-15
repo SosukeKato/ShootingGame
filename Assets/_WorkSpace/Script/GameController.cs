@@ -210,7 +210,7 @@ public class GameController : MonoBehaviour
 
         bullet.SetActive(true);
 
-        return null;
+        return bullet;
     }
     #endregion
 
