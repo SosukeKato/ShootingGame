@@ -76,30 +76,6 @@ public class GameController : MonoBehaviour
         #region Pool‚Ì‰Šú‰»ˆ—
         _bulletPoolArray = new Queue<GameObject>[_pdArray.Length];
 
-        for (int i= 0; i < _pdArray.Length; i++)
-        {
-            _bulletPoolArray[i] = new Queue<GameObject>();
-            for (int j = 0; j < _pdArray[i]._poolSize;j++)
-            {
-                GameObject bullet = Instantiate(_pdArray[i].prefab);
-                bullet.SetActive(false);
-                bullet.transform.SetParent(_parent);
-                _bulletPoolArray[i].Enqueue(bullet);
-            }
-        }
-        #endregion
-    }
-
-    void Start()
-    {
-        _tr = transform;
-        _pt = _player.transform;
-        _tt = _target.transform;
-        _pi = GetComponent<PlayerInput>();
-
-        #region Pool‚Ì‰Šú‰»ˆ—
-        _bulletPoolArray = new Queue<GameObject>[_pdArray.Length];
-
         for (int i = 0; i < _pdArray.Length; i++)
         {
             _bulletPoolArray[i] = new Queue<GameObject>();
@@ -112,6 +88,11 @@ public class GameController : MonoBehaviour
             }
         }
         #endregion
+    }
+
+    void Start()
+    {
+        
     }
 
     void Update()
