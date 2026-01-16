@@ -629,7 +629,8 @@ MonoBehaviour:
   _enemy: []
   _playerBullet: {fileID: 621680620640410385, guid: 5ba6791e96d87a241b600efcc0aed552,
     type: 3}
-  _enemyBullet: []
+  _enemyBullet: {fileID: 5941353146858163887, guid: ee918b870602cc54781af8658b74f7b8,
+    type: 3}
   _stage: []
   _titleImage: {fileID: 445730671}
   _gameOverImage: {fileID: 962054894}

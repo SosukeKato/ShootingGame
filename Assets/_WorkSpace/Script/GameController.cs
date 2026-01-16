@@ -11,6 +11,13 @@ public class PoolData
     public int _poolSize;
 }
 
+public enum BulletType
+{
+    PlayerBullet = 0,
+    EnemyNormalBullet = 1,
+    EnemyHomingBullet = 2
+}
+
 public class GameController : MonoBehaviour
 {
     Transform _tr;
@@ -32,7 +39,7 @@ public class GameController : MonoBehaviour
     [SerializeField,Header("Playerが発射するBulletのPrefab")]
     GameObject _playerBullet;
     [SerializeField,Header("Enemyが発射するBulletのPrefab")]
-    GameObject[] _enemyBullet;
+    GameObject _enemyBullet;
     [SerializeField,Header("Stageの背景になるImage")]
     Image[] _stage;
     [SerializeField,Header("Titleの背景になるImage")]
@@ -103,7 +110,7 @@ public class GameController : MonoBehaviour
 
         if (_pi.actions["PlayerAttack"].WasPressedThisFrame())
         {
-            SpawnBullet(0);
+            SpawnBullet(BulletType.PlayerBullet);
         }
 
         #endregion
@@ -184,6 +191,12 @@ public class GameController : MonoBehaviour
         #endregion
 
         #endregion
+
+        #region 当たり判定の処理
+
+        
+
+        #endregion
     }
 
     #region Poolからオブジェクトを取得する処理
@@ -235,11 +248,11 @@ public class GameController : MonoBehaviour
     #endregion
 
     #region Pool内のオブジェクトの生成処理
-    void SpawnBullet(int index)
+    void SpawnBullet(BulletType bulletType)
     {
-        GameObject bullet = GetBullet(index);
+        GameObject bullet = GetBullet((int) bulletType);
 
-        bullet.transform.SetPositionAndRotation(_pdArray[index].muzzle.position, Quaternion.identity);
+        bullet.transform.SetPositionAndRotation(_pdArray[(int) bulletType].muzzle.position, Quaternion.identity);
     }
     #endregion
 }
