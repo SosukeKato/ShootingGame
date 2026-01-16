@@ -14,8 +14,7 @@ public class PoolData
 public enum BulletType
 {
     PlayerBullet = 0,
-    EnemyNormalBullet = 1,
-    EnemyHomingBullet = 2
+    EnemyBullet = 1
 }
 
 public class GameController : MonoBehaviour
@@ -36,10 +35,10 @@ public class GameController : MonoBehaviour
     GameObject _target;
     [SerializeField,Header("Enemy")]
     GameObject[] _enemy;
-    [SerializeField,Header("Player‚ª”­ŽË‚·‚éBullet‚ÌPrefab")]
-    GameObject _playerBullet;
-    [SerializeField,Header("Enemy‚ª”­ŽË‚·‚éBullet‚ÌPrefab")]
-    GameObject _enemyBullet;
+    [SerializeField,Header("Player‚ª”­ŽË‚·‚éBullet‚ÌList")]
+    List<GameObject> _playerBulletList;
+    [SerializeField,Header("Enemy‚ª”­ŽË‚·‚éBullet‚ÌList")]
+    List<GameObject> _enemyBulletList;
     [SerializeField,Header("Stage‚Ì”wŒi‚É‚È‚éImage")]
     Image[] _stage;
     [SerializeField,Header("Title‚Ì”wŒi‚É‚È‚éImage")]
@@ -251,8 +250,17 @@ public class GameController : MonoBehaviour
     void SpawnBullet(BulletType bulletType)
     {
         GameObject bullet = GetBullet((int) bulletType);
+        
+        if (bulletType == BulletType.PlayerBullet)
+        {
+            _playerBulletList.Add(bullet);
+        }
+        else
+        {
+            _enemyBulletList.Add(bullet);
+        }
 
-        bullet.transform.SetPositionAndRotation(_pdArray[(int) bulletType].muzzle.position, Quaternion.identity);
+        bullet.transform.SetPositionAndRotation(_pdArray[(int)bulletType].muzzle.position, Quaternion.identity);
     }
     #endregion
 }
