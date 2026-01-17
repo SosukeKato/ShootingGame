@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -22,6 +23,7 @@ public class GameController : MonoBehaviour
     Transform _tr;
     Transform _pt;
     Transform _tt;
+    Transform _et;
     PlayerInput _pi;
 
     [SerializeField]
@@ -34,7 +36,7 @@ public class GameController : MonoBehaviour
     [SerializeField,Header("Æ€")]
     GameObject _target;
     [SerializeField,Header("Enemy")]
-    GameObject[] _enemy;
+    GameObject _enemy;
     [SerializeField,Header("Player‚ª”­Ë‚·‚éBullet‚ÌList")]
     List<GameObject> _playerBulletList;
     [SerializeField,Header("Enemy‚ª”­Ë‚·‚éBullet‚ÌList")]
@@ -57,6 +59,10 @@ public class GameController : MonoBehaviour
     Vector2 _fieldClampX;
     [SerializeField,Header("Y²‚ÌˆÚ“®”ÍˆÍ§ŒÀ(min,max)")]
     Vector2 _fieldClampY;
+    [SerializeField, Header("Player‚ÌX²‚Ì‚ ‚½‚è”»’è(min,max)")]
+    Vector2 _playerColX;
+    [SerializeField, Header("Player‚ÌY²‚Ì‚ ‚½‚è”»’è(min,max)")]
+    Vector2 _playerColY;
 
     Vector2 _playerMoveInput;
     Vector2 _targetMoveInput;
@@ -69,14 +75,21 @@ public class GameController : MonoBehaviour
     string _state;
 
     bool _isPause;
+    bool _isLoading;
 
     Queue<GameObject>[] _bulletPoolArray;
 
     void Awake()
     {
+        
+    }
+
+    void Start()
+    {
         _tr = transform;
         _pt = _player.transform;
         _tt = _target.transform;
+        _et = _enemy.transform;
         _pi = GetComponent<PlayerInput>();
 
         #region Pool‚Ì‰Šú‰»ˆ—
@@ -94,11 +107,6 @@ public class GameController : MonoBehaviour
             }
         }
         #endregion
-    }
-
-    void Start()
-    {
-        
     }
 
     void Update()
@@ -193,7 +201,24 @@ public class GameController : MonoBehaviour
 
         #region “–‚½‚è”»’è‚Ìˆ—
 
+        #region Player‚Æ“G‚Ì’e
+
         
+
+        #endregion
+
+        #region “G‚ÆPlayer‚Ì’e
+
+        for (int i = 0; i < _playerBulletList.Count; i++)
+        {
+            if ((_et.position.x * _et.position.x + _et.position.y * _et.position.y) - (_playerBulletList[i].transform.position.x * _playerBulletList[i].transform.position.x + _playerBulletList[i].transform.position.y * _playerBulletList[i].transform.position.y) < 0)
+            {
+                _playerBulletList.RemoveAt(i);
+                i--;
+            }
+        }
+
+        #endregion
 
         #endregion
     }
