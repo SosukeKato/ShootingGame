@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,10 +8,12 @@ public class PoolData
 {
     public GameObject prefab;
     public Transform muzzle;
-    public int _poolSize;
+    public int poolSize;
+    public List<GameObject> objectList;
+    public Queue<GameObject> pool = new();
 }
 
-public enum BulletType
+public enum PoolType
 {
     PlayerBullet = 0,
     EnemyBullet = 1
@@ -37,10 +38,6 @@ public class GameController : MonoBehaviour
     GameObject _target;
     [SerializeField,Header("Enemy")]
     GameObject _enemy;
-    [SerializeField,Header("Playerが発射するBulletのList")]
-    List<GameObject> _playerBulletList;
-    [SerializeField,Header("Enemyが発射するBulletのList")]
-    List<GameObject> _enemyBulletList;
     [SerializeField,Header("Stageの背景になるImage")]
     Image[] _stage;
     [SerializeField,Header("Titleの背景になるImage")]
@@ -51,6 +48,10 @@ public class GameController : MonoBehaviour
     Image _gameClearImage;
     [SerializeField,Header("Playerと照準の移動速度")]
     float _moveSpeed;
+    [SerializeField, Header("敵の弾とPlayerの衝突距離")]
+    float _playerToEnemyBulletCol;
+    [SerializeField, Header("Playerの弾と敵の衝突距離")]
+    float _enemyToPlayerBulletCol;
     [SerializeField,Header("Enemyの状態変化1段階目が終わる時間")]
     int _firstFormEndTime;
     [SerializeField,Header("EnemyのHPの最大値")]
@@ -77,8 +78,6 @@ public class GameController : MonoBehaviour
     bool _isPause;
     bool _isLoading;
 
-    Queue<GameObject>[] _bulletPoolArray;
-
     void Awake()
     {
         
@@ -93,19 +92,19 @@ public class GameController : MonoBehaviour
         _pi = GetComponent<PlayerInput>();
 
         #region Poolの初期化処理
-        _bulletPoolArray = new Queue<GameObject>[_pdArray.Length];
 
         for (int i = 0; i < _pdArray.Length; i++)
         {
-            _bulletPoolArray[i] = new Queue<GameObject>();
-            for (int j = 0; j < _pdArray[i]._poolSize; j++)
+            _pdArray[i].pool = new();
+            for (int j = 0; j < _pdArray[i].poolSize; j++)
             {
                 GameObject bullet = Instantiate(_pdArray[i].prefab);
                 bullet.SetActive(false);
                 bullet.transform.SetParent(_parent);
-                _bulletPoolArray[i].Enqueue(bullet);
+                _pdArray[i].pool.Enqueue(bullet);
             }
         }
+
         #endregion
     }
 
@@ -117,7 +116,7 @@ public class GameController : MonoBehaviour
 
         if (_pi.actions["PlayerAttack"].WasPressedThisFrame())
         {
-            SpawnBullet(BulletType.PlayerBullet);
+            SpawnBullet(PoolType.PlayerBullet);
         }
 
         #endregion
@@ -209,12 +208,19 @@ public class GameController : MonoBehaviour
 
         #region 敵とPlayerの弾
 
-        for (int i = 0; i < _playerBulletList.Count; i++)
+        for (int i = 0; i < _pdArray[(int)PoolType.PlayerBullet].objectList.Count; i++)
         {
-            if ((_et.position.x * _et.position.x + _et.position.y * _et.position.y) - (_playerBulletList[i].transform.position.x * _playerBulletList[i].transform.position.x + _playerBulletList[i].transform.position.y * _playerBulletList[i].transform.position.y) < 0)
+            float EnemyX = _et.position.x;
+            float EnemyY = _et.position.y;
+            float PlayerBulletX = _pdArray[(int)PoolType.PlayerBullet].objectList[i].transform.position.x;
+            float PlayerBulletY = _pdArray[(int)PoolType.PlayerBullet].objectList[i].transform.position.y;
+            float distance = (EnemyX * EnemyX + EnemyY * EnemyY) - (PlayerBulletX * PlayerBulletX + PlayerBulletY * PlayerBulletY);
+
+            if (distance < _enemyToPlayerBulletCol)
             {
-                _playerBulletList.RemoveAt(i);
+                _pdArray[(int)PoolType.PlayerBullet].objectList.RemoveAt(i);
                 i--;
+                _state = "GameOver";
             }
         }
 
@@ -226,7 +232,7 @@ public class GameController : MonoBehaviour
     #region Poolからオブジェクトを取得する処理
     GameObject GetBullet(int index)
     {
-        if (index < 0 || index >= _bulletPoolArray.Length)
+        if (index < 0 || index >= _pdArray[index].pool.Count)
         {
             Debug.LogWarning($"インデックス{index}が範囲外までいっちゃったやでどうするやで？");
             return null;
@@ -234,9 +240,9 @@ public class GameController : MonoBehaviour
 
         GameObject bullet;
 
-        if (_bulletPoolArray[index].Count > 0)
+        if (_pdArray[index].pool.Count > 0)
         {
-            bullet = _bulletPoolArray[index].Dequeue();
+            bullet = _pdArray[index].pool.Dequeue();
         }
         else
         {
@@ -259,7 +265,7 @@ public class GameController : MonoBehaviour
             return;
         }
 
-        if (index < 0 || index >= _bulletPoolArray.Length)
+        if (index < 0 || index >= _pdArray[index].pool.Count)
         {
             Debug.LogError($"インデックス{index}が範囲外までいっちゃったやでどうするやで？");
             return;
@@ -267,23 +273,16 @@ public class GameController : MonoBehaviour
 
         bullet.SetActive(false);
         bullet.transform.SetParent(_parent);
-        _bulletPoolArray[index].Enqueue(bullet);
+        _pdArray[index].pool.Enqueue(bullet);
     }
     #endregion
 
     #region Pool内のオブジェクトの生成処理
-    void SpawnBullet(BulletType bulletType)
+    void SpawnBullet(PoolType bulletType)
     {
         GameObject bullet = GetBullet((int) bulletType);
-        
-        if (bulletType == BulletType.PlayerBullet)
-        {
-            _playerBulletList.Add(bullet);
-        }
-        else
-        {
-            _enemyBulletList.Add(bullet);
-        }
+
+        _pdArray[(int)bulletType].objectList.Add(bullet);
 
         bullet.transform.SetPositionAndRotation(_pdArray[(int)bulletType].muzzle.position, Quaternion.identity);
     }
