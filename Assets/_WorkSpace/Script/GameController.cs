@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -30,39 +30,39 @@ public class GameController : MonoBehaviour
     [SerializeField]
     PoolData[] _pdArray;
 
-    [SerializeField, Header("Pool‚ÌeƒIƒuƒWƒFƒNƒg")]
+    [SerializeField, Header("Poolã®è¦ªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ")]
     Transform _parent;
     [SerializeField,Header("Player")]
     GameObject _player;
-    [SerializeField,Header("Æ€")]
+    [SerializeField,Header("ç…§æº–")]
     GameObject _target;
     [SerializeField,Header("Enemy")]
     GameObject _enemy;
-    [SerializeField,Header("Stage‚Ì”wŒi‚É‚È‚éImage")]
+    [SerializeField,Header("Stageã®èƒŒæ™¯ã«ãªã‚‹Image")]
     Image[] _stage;
-    [SerializeField,Header("Title‚Ì”wŒi‚É‚È‚éImage")]
+    [SerializeField,Header("Titleã®èƒŒæ™¯ã«ãªã‚‹Image")]
     Image _titleImage;
-    [SerializeField,Header("GameOver‚Ì”wŒi‚É‚È‚éImage")]
+    [SerializeField,Header("GameOverã®èƒŒæ™¯ã«ãªã‚‹Image")]
     Image _gameOverImage;
-    [SerializeField,Header("GameClear‚Ì”wŒi‚É‚È‚éImage")]
+    [SerializeField,Header("GameClearã®èƒŒæ™¯ã«ãªã‚‹Image")]
     Image _gameClearImage;
-    [SerializeField,Header("Player‚ÆÆ€‚ÌˆÚ“®‘¬“x")]
+    [SerializeField,Header("Playerã¨ç…§æº–ã®ç§»å‹•é€Ÿåº¦")]
     float _moveSpeed;
-    [SerializeField, Header("“G‚Ì’e‚ÆPlayer‚ÌÕ“Ë‹——£")]
+    [SerializeField, Header("æ•µã®å¼¾ã¨Playerã®è¡çªè·é›¢")]
     float _playerToEnemyBulletCol;
-    [SerializeField, Header("Player‚Ì’e‚Æ“G‚ÌÕ“Ë‹——£")]
+    [SerializeField, Header("Playerã®å¼¾ã¨æ•µã®è¡çªè·é›¢")]
     float _enemyToPlayerBulletCol;
-    [SerializeField,Header("Enemy‚Ìó‘Ô•Ï‰»1’iŠK–Ú‚ªI‚í‚éŠÔ")]
+    [SerializeField,Header("Enemyã®çŠ¶æ…‹å¤‰åŒ–1æ®µéšç›®ãŒçµ‚ã‚ã‚‹æ™‚é–“")]
     int _firstFormEndTime;
-    [SerializeField,Header("Enemy‚ÌHP‚ÌÅ‘å’l")]
+    [SerializeField,Header("Enemyã®HPã®æœ€å¤§å€¤")]
     int _enemyMaxHP;
-    [SerializeField,Header("X²‚ÌˆÚ“®”ÍˆÍ§ŒÀ(min,max)")]
+    [SerializeField,Header("Xè»¸ã®ç§»å‹•ç¯„å›²åˆ¶é™(min,max)")]
     Vector2 _fieldClampX;
-    [SerializeField,Header("Y²‚ÌˆÚ“®”ÍˆÍ§ŒÀ(min,max)")]
+    [SerializeField,Header("Yè»¸ã®ç§»å‹•ç¯„å›²åˆ¶é™(min,max)")]
     Vector2 _fieldClampY;
-    [SerializeField, Header("Player‚ÌX²‚Ì‚ ‚½‚è”»’è(min,max)")]
+    [SerializeField, Header("Playerã®Xè»¸ã®ã‚ãŸã‚Šåˆ¤å®š(min,max)")]
     Vector2 _playerColX;
-    [SerializeField, Header("Player‚ÌY²‚Ì‚ ‚½‚è”»’è(min,max)")]
+    [SerializeField, Header("Playerã®Yè»¸ã®ã‚ãŸã‚Šåˆ¤å®š(min,max)")]
     Vector2 _playerColY;
 
     Vector2 _playerMoveInput;
@@ -91,7 +91,7 @@ public class GameController : MonoBehaviour
         _et = _enemy.transform;
         _pi = GetComponent<PlayerInput>();
 
-        #region Pool‚Ì‰Šú‰»ˆ—
+        #region Poolã®åˆæœŸåŒ–å‡¦ç†
 
         for (int i = 0; i < _pdArray.Length; i++)
         {
@@ -110,9 +110,9 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        #region Player‚Ìˆ—
+        #region Playerã®å‡¦ç†
 
-        #region Player‚ÌUŒ‚
+        #region Playerã®æ”»æ’ƒ
 
         if (_pi.actions["PlayerAttack"].WasPressedThisFrame())
         {
@@ -121,9 +121,9 @@ public class GameController : MonoBehaviour
 
         #endregion
 
-        #region Player‚ÌˆÚ“®
+        #region Playerã®ç§»å‹•
 
-        #region Player‚ÌˆÚ“®”ÍˆÍ§ŒÀ
+        #region Playerã®ç§»å‹•ç¯„å›²åˆ¶é™
 
         _playerPosition = _pt.position;
 
@@ -150,9 +150,9 @@ public class GameController : MonoBehaviour
 
         #endregion
 
-        #region Æ€‚ÌˆÚ“®
+        #region ç…§æº–ã®ç§»å‹•
 
-        #region Æ€‚ÌˆÚ“®”ÍˆÍ§ŒÀ
+        #region ç…§æº–ã®ç§»å‹•ç¯„å›²åˆ¶é™
 
         _targetPosition = _tt.position;
 
@@ -177,9 +177,9 @@ public class GameController : MonoBehaviour
 
         #endregion
 
-        #region Enemy‚Ìˆ—
+        #region Enemyã®å‡¦ç†
 
-        #region Enemy‚ÌHP‚Ìˆ—
+        #region Enemyã®HPã®å‡¦ç†
 
         if (_enemyHP > _enemyMaxHP)
         {
@@ -187,26 +187,26 @@ public class GameController : MonoBehaviour
         }
         else if (_enemyHP <= 0)
         {
-            //Debug.Log("“G‚ª“|‚³‚ê‚½‚ç‚µ‚¢‚ËB‚¨‘O‚ÌŸ‚¿A‰½‚ÅŸ‚Á‚½‚©–¾“ú‚Ü‚Å‚Él‚¦‚Æ‚¢‚Ä‚­‚¾‚³‚¢");
+            //Debug.Log("æ•µãŒå€’ã•ã‚ŒãŸã‚‰ã—ã„ã­ã€‚ãŠå‰ã®å‹ã¡ã€ä½•ã§å‹ã£ãŸã‹æ˜æ—¥ã¾ã§ã«è€ƒãˆã¨ã„ã¦ãã ã•ã„");
         }
 
         #endregion
 
-        #region Enemy‚ÌUŒ‚
+        #region Enemyã®æ”»æ’ƒ
 
         #endregion
 
         #endregion
 
-        #region “–‚½‚è”»’è‚Ìˆ—
+        #region å½“ãŸã‚Šåˆ¤å®šã®å‡¦ç†
 
-        #region Player‚Æ“G‚Ì’e
+        #region Playerã¨æ•µã®å¼¾
 
         
 
         #endregion
 
-        #region “G‚ÆPlayer‚Ì’e
+        #region æ•µã¨Playerã®å¼¾
 
         for (int i = 0; i < _pdArray[(int)PoolType.PlayerBullet].objectList.Count; i++)
         {
@@ -229,12 +229,12 @@ public class GameController : MonoBehaviour
         #endregion
     }
 
-    #region Pool‚©‚çƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éˆ—
+    #region Poolã‹ã‚‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã™ã‚‹å‡¦ç†
     GameObject GetBullet(int index)
     {
         if (index < 0 || index >= _pdArray[index].pool.Count)
         {
-            Debug.LogWarning($"ƒCƒ“ƒfƒbƒNƒX{index}‚ª”ÍˆÍŠO‚Ü‚Å‚¢‚Á‚¿‚á‚Á‚½‚â‚Å‚Ç‚¤‚·‚é‚â‚ÅH");
+            Debug.LogWarning($"ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹{index}ãŒç¯„å›²å¤–ã¾ã§ã„ã£ã¡ã‚ƒã£ãŸã‚„ã§ã©ã†ã™ã‚‹ã‚„ã§ï¼Ÿ");
             return null;
         }
 
@@ -248,7 +248,7 @@ public class GameController : MonoBehaviour
         {
             bullet = Instantiate(_pdArray[index].prefab);
             bullet.transform.SetParent(_parent);
-            Debug.LogWarning("‘«‚è‚È‚©‚Á‚½‚©‚çd•û‚È‚¢‚µì‚Á‚Ä‚â‚é‚â‚Å");
+            Debug.LogWarning("è¶³ã‚Šãªã‹ã£ãŸã‹ã‚‰ä»•æ–¹ãªã„ã—ä½œã£ã¦ã‚„ã‚‹ã‚„ã§");
         }
 
         bullet.SetActive(true);
@@ -257,7 +257,7 @@ public class GameController : MonoBehaviour
     }
     #endregion
 
-    #region Pool‚ÉƒIƒuƒWƒFƒNƒg‚ğ•Ô‹p‚·‚éˆ—
+    #region Poolã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”å´ã™ã‚‹å‡¦ç†
     void ReturnBullet(int index, GameObject bullet)
     {
         if (bullet == null)
@@ -267,7 +267,7 @@ public class GameController : MonoBehaviour
 
         if (index < 0 || index >= _pdArray[index].pool.Count)
         {
-            Debug.LogError($"ƒCƒ“ƒfƒbƒNƒX{index}‚ª”ÍˆÍŠO‚Ü‚Å‚¢‚Á‚¿‚á‚Á‚½‚â‚Å‚Ç‚¤‚·‚é‚â‚ÅH");
+            Debug.LogError($"ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹{index}ãŒç¯„å›²å¤–ã¾ã§ã„ã£ã¡ã‚ƒã£ãŸã‚„ã§ã©ã†ã™ã‚‹ã‚„ã§ï¼Ÿ");
             return;
         }
 
@@ -277,7 +277,7 @@ public class GameController : MonoBehaviour
     }
     #endregion
 
-    #region Pool“à‚ÌƒIƒuƒWƒFƒNƒg‚Ì¶¬ˆ—
+    #region Poolå†…ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç”Ÿæˆå‡¦ç†
     void SpawnBullet(PoolType bulletType)
     {
         GameObject bullet = GetBullet((int) bulletType);
