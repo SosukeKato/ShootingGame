@@ -622,24 +622,26 @@ MonoBehaviour:
   _pdArray:
   - prefab: {fileID: 621680620640410385, guid: 5ba6791e96d87a241b600efcc0aed552, type: 3}
     muzzle: {fileID: 1606179682}
-    _poolSize: 10
+    poolSize: 20
+    objectList: []
   _parent: {fileID: 664769169}
   _player: {fileID: 1606179679}
   _target: {fileID: 844711426}
-  _enemy: []
-  _playerBullet: {fileID: 621680620640410385, guid: 5ba6791e96d87a241b600efcc0aed552,
-    type: 3}
-  _enemyBullet: {fileID: 5941353146858163887, guid: ee918b870602cc54781af8658b74f7b8,
-    type: 3}
+  _enemy: {fileID: 1147953127}
   _stage: []
   _titleImage: {fileID: 445730671}
   _gameOverImage: {fileID: 962054894}
   _gameClearImage: {fileID: 1330832061}
   _moveSpeed: 5
+  _bulletSpeed: 10
+  _playerToEnemyBulletCol: 0
+  _enemyToPlayerBulletCol: 0
   _firstFormEndTime: 0
   _enemyMaxHP: 0
   _fieldClampX: {x: -9, y: 9}
   _fieldClampY: {x: -4, y: 6}
+  _playerColX: {x: 0, y: 0}
+  _playerColY: {x: 0, y: 0}
 --- !u!4 &664769169
 Transform:
   m_ObjectHideFlags: 0

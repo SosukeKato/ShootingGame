@@ -21,11 +21,17 @@ public enum PoolType
 
 public class GameController : MonoBehaviour
 {
+    #region コンポーネント取得用の変数
+
     Transform _tr;
     Transform _pt;
     Transform _tt;
     Transform _et;
     PlayerInput _pi;
+
+    #endregion
+
+    #region エディタから変更できる変数
 
     [SerializeField]
     PoolData[] _pdArray;
@@ -48,6 +54,8 @@ public class GameController : MonoBehaviour
     Image _gameClearImage;
     [SerializeField,Header("Playerと照準の移動速度")]
     float _moveSpeed;
+    [SerializeField, Header("弾の移動速度")]
+    float _bulletSpeed;
     [SerializeField, Header("敵の弾とPlayerの衝突距離")]
     float _playerToEnemyBulletCol;
     [SerializeField, Header("Playerの弾と敵の衝突距離")]
@@ -65,6 +73,10 @@ public class GameController : MonoBehaviour
     [SerializeField, Header("PlayerのY軸のあたり判定(min,max)")]
     Vector2 _playerColY;
 
+    #endregion
+
+    #region 内部変数
+
     Vector2 _playerMoveInput;
     Vector2 _targetMoveInput;
 
@@ -78,6 +90,8 @@ public class GameController : MonoBehaviour
     bool _isPause;
     bool _isLoading;
 
+    #endregion
+
     void Awake()
     {
         
@@ -85,11 +99,15 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        #region コンポーネントの取得
+
         _tr = transform;
         _pt = _player.transform;
         _tt = _target.transform;
         _et = _enemy.transform;
         _pi = GetComponent<PlayerInput>();
+
+        #endregion
 
         #region Poolの初期化処理
 
@@ -118,6 +136,15 @@ public class GameController : MonoBehaviour
         {
             SpawnBullet(PoolType.PlayerBullet);
         }
+
+        #region Playerの弾の移動
+
+        for (int i = 0; i < _pdArray[(int)PoolType.PlayerBullet].objectList.Count; i++)
+        {
+            _pdArray[(int)PoolType.PlayerBullet].objectList[i].transform.position += _pdArray[(int)PoolType.PlayerBullet].objectList[i].transform.up * Time.deltaTime * _bulletSpeed;
+        }
+
+        #endregion
 
         #endregion
 
@@ -202,7 +229,7 @@ public class GameController : MonoBehaviour
 
         #region Playerと敵の弾
 
-        
+
 
         #endregion
 
