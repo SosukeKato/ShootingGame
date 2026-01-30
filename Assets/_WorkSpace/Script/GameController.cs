@@ -115,6 +115,7 @@ public class GameController : MonoBehaviour
                 GameObject bullet = Instantiate(_pdArray[i].prefab);
                 bullet.SetActive(false);
                 bullet.transform.SetParent(_parent);
+                _pdArray[i].objectList.Add(bullet);
                 _pdArray[i].pool.Enqueue(bullet);
             }
         }
@@ -233,11 +234,9 @@ public class GameController : MonoBehaviour
 
         for (int i = 0; i < _pdArray[(int)PoolType.PlayerBullet].objectList.Count; i++)
         {
-            float EnemyX = _et.position.x;
-            float EnemyY = _et.position.y;
-            float PlayerBulletX = _pdArray[(int)PoolType.PlayerBullet].objectList[i].transform.position.x;
-            float PlayerBulletY = _pdArray[(int)PoolType.PlayerBullet].objectList[i].transform.position.y;
-            float distance = (EnemyX * EnemyX + EnemyY * EnemyY) - (PlayerBulletX * PlayerBulletX + PlayerBulletY * PlayerBulletY);
+            float dx = _et.position.x - _pdArray[(int)PoolType.PlayerBullet].objectList[i].transform.position.x;
+            float dy = _et.position.y - _pdArray[(int)PoolType.PlayerBullet].objectList[i].transform.position.y;
+            float distance = dx * dx + dy * dy;
 
             if (distance < _enemyToPlayerBulletCol)
             {
