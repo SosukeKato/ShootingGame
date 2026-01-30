@@ -64,10 +64,8 @@ public class GameController : MonoBehaviour
     int _firstFormEndTime;
     [SerializeField,Header("EnemyのHPの最大値")]
     int _enemyMaxHP;
-    [SerializeField,Header("X軸の移動範囲制限(min,max)")]
-    Vector2 _fieldClampX;
-    [SerializeField,Header("Y軸の移動範囲制限(min,max)")]
-    Vector2 _fieldClampY;
+    [SerializeField, Header("画面範囲(+の方向)")]
+    Vector2 _screenSize;
 
     #endregion
 
@@ -115,7 +113,6 @@ public class GameController : MonoBehaviour
                 GameObject bullet = Instantiate(_pdArray[i].prefab);
                 bullet.SetActive(false);
                 bullet.transform.SetParent(_parent);
-                _pdArray[i].objectList.Add(bullet);
                 _pdArray[i].pool.Enqueue(bullet);
             }
         }
@@ -134,15 +131,6 @@ public class GameController : MonoBehaviour
             SpawnBullet(PoolType.PlayerBullet);
         }
 
-        #region Playerの弾の移動
-
-        for (int i = 0; i < _pdArray[(int)PoolType.PlayerBullet].objectList.Count; i++)
-        {
-            _pdArray[(int)PoolType.PlayerBullet].objectList[i].transform.position += _pdArray[(int)PoolType.PlayerBullet].objectList[i].transform.up * Time.deltaTime * _bulletSpeed;
-        }
-
-        #endregion
-
         #endregion
 
         #region Playerの移動
@@ -151,8 +139,8 @@ public class GameController : MonoBehaviour
 
         _playerPosition = _pt.position;
 
-        _playerPosition.x = Mathf.Clamp(_playerPosition.x, _fieldClampX.x, _fieldClampX.y);
-        _playerPosition.y = Mathf.Clamp(_playerPosition.y, _fieldClampY.x, _fieldClampY.y);
+        _playerPosition.x = Mathf.Clamp(_playerPosition.x, -_screenSize.x, _screenSize.x);
+        _playerPosition.y = Mathf.Clamp(_playerPosition.y, -_screenSize.y, _screenSize.y);
 
         _pt.position = _playerPosition;
 
@@ -174,14 +162,29 @@ public class GameController : MonoBehaviour
 
         #endregion
 
+        #region Playerの弾の移動
+
+        for (int i = 0; i < _pdArray[(int)PoolType.PlayerBullet].objectList.Count; i++)
+        {
+            Transform bulletTransform = _pdArray[(int)PoolType.PlayerBullet].objectList[i].transform;
+            bulletTransform.position += bulletTransform.up * Time.deltaTime * _bulletSpeed;
+            if (bulletTransform.position.x < - _screenSize.x || _screenSize.x < bulletTransform.position.x || bulletTransform.position.y < - _screenSize.y || _screenSize.y < bulletTransform.position.y)
+            {
+                _pdArray[(int)PoolType.PlayerBullet].objectList.RemoveAt(i);
+                i--;
+            }
+        }
+
+        #endregion
+
         #region 照準の移動
 
         #region 照準の移動範囲制限
 
         _targetPosition = _tt.position;
 
-        _targetPosition.x = Mathf.Clamp(_targetPosition.x, _fieldClampX.x, _fieldClampX.y);
-        _targetPosition.y = Mathf.Clamp(_targetPosition.y, _fieldClampY.x, _fieldClampY.y);
+        _targetPosition.x = Mathf.Clamp(_targetPosition.x, -_screenSize.x, _screenSize.x);
+        _targetPosition.y = Mathf.Clamp(_targetPosition.y, -_screenSize.y, _screenSize.y);
 
         _tt.position = _targetPosition;
 
