@@ -9,7 +9,7 @@ public class PoolData
     public GameObject prefab;
     public Transform muzzle;
     public int poolSize;
-    public List<GameObject> objectList;
+    public List<GameObject> objectList = new();
     public Queue<GameObject> pool = new();
 }
 
@@ -259,12 +259,6 @@ public class GameController : MonoBehaviour
     #region Poolからオブジェクトを取得する処理
     GameObject GetBullet(int index)
     {
-        if (index < 0 || index >= _pdArray[index].pool.Count)
-        {
-            Debug.LogWarning($"インデックス{index}が範囲外までいっちゃったやでどうするやで？");
-            return null;
-        }
-
         GameObject bullet;
 
         if (_pdArray[index].pool.Count > 0)
@@ -275,6 +269,7 @@ public class GameController : MonoBehaviour
         {
             bullet = Instantiate(_pdArray[index].prefab);
             bullet.transform.SetParent(_parent);
+            _pdArray[index].objectList.Add(bullet);
             Debug.LogWarning("足りなかったから仕方ないし作ってやるやで");
         }
 
