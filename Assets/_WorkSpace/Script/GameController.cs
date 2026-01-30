@@ -230,7 +230,20 @@ public class GameController : MonoBehaviour
 
         #region Playerと敵の弾
 
+        for (int i = 0; i < _pdArray[(int)PoolType.EnemyBullet].objectList.Count; i++)
+        {
+            float dx = _pt.position.x - _pdArray[(int)PoolType.EnemyBullet].objectList[i].transform.position.x;
+            float dy = _pt.position.y - _pdArray[(int)PoolType.EnemyBullet].objectList[i].transform.position.y;
+            float distance = dx * dx + dy * dy;
 
+            if (distance < _playerToEnemyBulletCol)
+            {
+                ReturnBullet((int)PoolType.EnemyBullet, _pdArray[(int)PoolType.EnemyBullet].objectList[i]);
+                _pdArray[(int)PoolType.EnemyBullet].objectList.RemoveAt(i);
+                i--;
+                _state = "GameOver";
+            }
+        }
 
         #endregion
 
@@ -247,7 +260,6 @@ public class GameController : MonoBehaviour
                 ReturnBullet((int)PoolType.PlayerBullet, _pdArray[(int)PoolType.PlayerBullet].objectList[i]);
                 _pdArray[(int)PoolType.PlayerBullet].objectList.RemoveAt(i);
                 i--;
-                _state = "GameOver";
             }
         }
 
