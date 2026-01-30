@@ -635,13 +635,11 @@ MonoBehaviour:
   _moveSpeed: 5
   _bulletSpeed: 10
   _playerToEnemyBulletCol: 0
-  _enemyToPlayerBulletCol: 0
+  _enemyToPlayerBulletCol: 1.5
   _firstFormEndTime: 0
   _enemyMaxHP: 0
   _fieldClampX: {x: -9, y: 9}
   _fieldClampY: {x: -4, y: 6}
-  _playerColX: {x: 0, y: 0}
-  _playerColY: {x: 0, y: 0}
 --- !u!4 &664769169
 Transform:
   m_ObjectHideFlags: 0
