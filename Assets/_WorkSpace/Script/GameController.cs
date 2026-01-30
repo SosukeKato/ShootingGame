@@ -168,8 +168,9 @@ public class GameController : MonoBehaviour
         {
             Transform bulletTransform = _pdArray[(int)PoolType.PlayerBullet].objectList[i].transform;
             bulletTransform.position += bulletTransform.up * Time.deltaTime * _bulletSpeed;
-            if (bulletTransform.position.x < - _screenSize.x || _screenSize.x < bulletTransform.position.x || bulletTransform.position.y < - _screenSize.y || _screenSize.y < bulletTransform.position.y)
+            if (bulletTransform.position.x < -_screenSize.x || _screenSize.x < bulletTransform.position.x || bulletTransform.position.y < -_screenSize.y || _screenSize.y < bulletTransform.position.y)
             {
+                ReturnBullet((int)PoolType.PlayerBullet, _pdArray[(int)PoolType.PlayerBullet].objectList[i]);
                 _pdArray[(int)PoolType.PlayerBullet].objectList.RemoveAt(i);
                 i--;
             }
@@ -243,6 +244,7 @@ public class GameController : MonoBehaviour
 
             if (distance < _enemyToPlayerBulletCol)
             {
+                ReturnBullet((int)PoolType.PlayerBullet, _pdArray[(int)PoolType.PlayerBullet].objectList[i]);
                 _pdArray[(int)PoolType.PlayerBullet].objectList.RemoveAt(i);
                 i--;
                 _state = "GameOver";
