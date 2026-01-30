@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PoolData
 {
     public GameObject prefab;
-    public Transform muzzle;
+    public Transform[] muzzle;
     public int poolSize;
     public List<GameObject> objectList = new();
     public Queue<GameObject> pool = new();
@@ -38,31 +38,37 @@ public class GameController : MonoBehaviour
 
     [SerializeField, Header("Poolの親オブジェクト")]
     Transform _parent;
-    [SerializeField,Header("Player")]
+    [SerializeField, Header("Player")]
     GameObject _player;
-    [SerializeField,Header("照準")]
+    [SerializeField, Header("照準")]
     GameObject _target;
-    [SerializeField,Header("Enemy")]
+    [SerializeField, Header("Enemy")]
     GameObject _enemy;
-    [SerializeField,Header("Stageの背景になるImage")]
+    [SerializeField, Header("Stageの背景になるImage")]
     Image[] _stage;
-    [SerializeField,Header("Titleの背景になるImage")]
+    [SerializeField, Header("Titleの背景になるImage")]
     Image _titleImage;
-    [SerializeField,Header("GameOverの背景になるImage")]
+    [SerializeField, Header("GameOverの背景になるImage")]
     Image _gameOverImage;
-    [SerializeField,Header("GameClearの背景になるImage")]
+    [SerializeField, Header("GameClearの背景になるImage")]
     Image _gameClearImage;
-    [SerializeField,Header("Playerと照準の移動速度")]
+    [SerializeField, Header("Playerと照準の移動速度")]
     float _moveSpeed;
-    [SerializeField, Header("弾の移動速度")]
-    float _bulletSpeed;
+    [SerializeField, Header("Playerの弾の移動速度")]
+    float _playerBulletSpeed;
+    [SerializeField, Header("敵の弾の移動速度")]
+    float _enemyBulletSpeed;
+    [SerializeField, Header("敵のmuzzleの回転速度")]
+    float _enemyMuzzleRotateSpeed;
     [SerializeField, Header("敵の弾とPlayerの衝突距離")]
     float _playerToEnemyBulletCol;
     [SerializeField, Header("Playerの弾と敵の衝突距離")]
     float _enemyToPlayerBulletCol;
-    [SerializeField,Header("Enemyの状態変化1段階目が終わる時間")]
+    [SerializeField, Header("EnemyのMuzzleが回転する攻撃のInterval")]
+    float _enemyMuzzleRotateAttackInterval;
+    [SerializeField, Header("Enemyの状態変化1段階目が終わる時間")]
     int _firstFormEndTime;
-    [SerializeField,Header("EnemyのHPの最大値")]
+    [SerializeField, Header("EnemyのHPの最大値")]
     int _enemyMaxHP;
     [SerializeField, Header("画面範囲(+の方向)")]
     Vector2 _screenSize;
@@ -71,13 +77,19 @@ public class GameController : MonoBehaviour
 
     #region 内部変数
 
+    Vector3 _trash = new Vector3(1000, 1000, 1000);
+
     Vector2 _playerMoveInput;
     Vector2 _targetMoveInput;
-
     Vector2 _playerPosition;
     Vector2 _targetPosition;
 
-    int _enemyHP;
+    int _enemyCurrentHP;
+    int _enemyControlNumber;
+
+    float _enemyActionControlTimer;
+    float _anglePlus;
+    float _angleMinus;
 
     string _state;
 
@@ -88,11 +100,13 @@ public class GameController : MonoBehaviour
 
     void Awake()
     {
-        
+
     }
 
     void Start()
     {
+        _enemyCurrentHP = _enemyMaxHP;
+
         #region コンポーネントの取得
 
         _tr = transform;
@@ -128,8 +142,25 @@ public class GameController : MonoBehaviour
 
         if (_pi.actions["PlayerAttack"].WasPressedThisFrame())
         {
-            SpawnBullet(PoolType.PlayerBullet);
+            SpawnBullet(PoolType.PlayerBullet, Quaternion.identity, 0);
         }
+
+        #region Playerの弾の移動
+
+        for (int i = 0; i < _pdArray[(int)PoolType.PlayerBullet].objectList.Count; i++)
+        {
+            Transform bulletTransform = _pdArray[(int)PoolType.PlayerBullet].objectList[i].transform;
+            bulletTransform.position += bulletTransform.up * Time.deltaTime * _playerBulletSpeed;
+            if (bulletTransform.position.x < -_screenSize.x || _screenSize.x < bulletTransform.position.x || bulletTransform.position.y < -_screenSize.y || _screenSize.y < bulletTransform.position.y)
+            {
+                bulletTransform.position = _trash;
+                ReturnBullet((int)PoolType.PlayerBullet, _pdArray[(int)PoolType.PlayerBullet].objectList[i]);
+                _pdArray[(int)PoolType.PlayerBullet].objectList.RemoveAt(i);
+                i--;
+            }
+        }
+
+        #endregion
 
         #endregion
 
@@ -159,22 +190,6 @@ public class GameController : MonoBehaviour
             _playerMoveInput = Vector2.zero;
         }
         _pt.position += new Vector3(_playerMoveInput.x, _playerMoveInput.y, 0).normalized * Time.deltaTime * _moveSpeed;
-
-        #endregion
-
-        #region Playerの弾の移動
-
-        for (int i = 0; i < _pdArray[(int)PoolType.PlayerBullet].objectList.Count; i++)
-        {
-            Transform bulletTransform = _pdArray[(int)PoolType.PlayerBullet].objectList[i].transform;
-            bulletTransform.position += bulletTransform.up * Time.deltaTime * _bulletSpeed;
-            if (bulletTransform.position.x < -_screenSize.x || _screenSize.x < bulletTransform.position.x || bulletTransform.position.y < -_screenSize.y || _screenSize.y < bulletTransform.position.y)
-            {
-                ReturnBullet((int)PoolType.PlayerBullet, _pdArray[(int)PoolType.PlayerBullet].objectList[i]);
-                _pdArray[(int)PoolType.PlayerBullet].objectList.RemoveAt(i);
-                i--;
-            }
-        }
 
         #endregion
 
@@ -209,18 +224,44 @@ public class GameController : MonoBehaviour
 
         #region EnemyのHPの処理
 
-        if (_enemyHP > _enemyMaxHP)
+        if (_enemyCurrentHP > _enemyMaxHP)
         {
-            _enemyHP = _enemyMaxHP;
+            _enemyCurrentHP = _enemyMaxHP;
         }
-        else if (_enemyHP <= 0)
+        else if (_enemyCurrentHP <= 0)
         {
-            //Debug.Log("敵が倒されたらしいね。お前の勝ち、何で勝ったか明日までに考えといてください");
+            Debug.Log("敵が倒されたらしいね。お前の勝ち、何で勝ったか明日までに考えといてください");
         }
 
         #endregion
 
         #region Enemyの攻撃
+
+        _enemyActionControlTimer += Time.deltaTime;
+        _anglePlus += Time.deltaTime * _enemyMuzzleRotateSpeed;
+        _pdArray[(int)PoolType.EnemyBullet].muzzle[0].transform.rotation = Quaternion.Euler(0, 0, _anglePlus);
+        if (_enemyActionControlTimer >= _enemyMuzzleRotateAttackInterval)
+        {
+            SpawnBullet(PoolType.EnemyBullet, _pdArray[(int)PoolType.EnemyBullet].muzzle[0].transform.rotation, 0);
+            _enemyActionControlTimer = 0;
+        }
+
+        #region 敵の弾の移動
+
+        for (int i = 0; i < _pdArray[(int)PoolType.EnemyBullet].objectList.Count; i++)
+        {
+            Transform bulletTransform = _pdArray[(int)PoolType.EnemyBullet].objectList[i].transform;
+            bulletTransform.position -= bulletTransform.up * Time.deltaTime * _enemyBulletSpeed;
+            if (bulletTransform.position.x < -_screenSize.x || _screenSize.x < bulletTransform.position.x || bulletTransform.position.y < -_screenSize.y || _screenSize.y < bulletTransform.position.y)
+            {
+                bulletTransform.position = _trash;
+                ReturnBullet((int)PoolType.EnemyBullet, _pdArray[(int)PoolType.EnemyBullet].objectList[i]);
+                _pdArray[(int)PoolType.EnemyBullet].objectList.RemoveAt(i);
+                i--;
+            }
+        }
+
+        #endregion
 
         #endregion
 
@@ -242,6 +283,7 @@ public class GameController : MonoBehaviour
                 _pdArray[(int)PoolType.EnemyBullet].objectList.RemoveAt(i);
                 i--;
                 _state = "GameOver";
+                Debug.Log("グエェェェ！死んだンゴ！");
             }
         }
 
@@ -260,6 +302,7 @@ public class GameController : MonoBehaviour
                 ReturnBullet((int)PoolType.PlayerBullet, _pdArray[(int)PoolType.PlayerBullet].objectList[i]);
                 _pdArray[(int)PoolType.PlayerBullet].objectList.RemoveAt(i);
                 i--;
+                _enemyCurrentHP -= 1;
             }
         }
 
@@ -312,13 +355,13 @@ public class GameController : MonoBehaviour
     #endregion
 
     #region Pool内のオブジェクトの生成処理
-    void SpawnBullet(PoolType bulletType)
+    void SpawnBullet(PoolType bulletType, Quaternion Rotate, int index)
     {
-        GameObject bullet = GetBullet((int) bulletType);
+        GameObject bullet = GetBullet((int)bulletType);
 
         _pdArray[(int)bulletType].objectList.Add(bullet);
 
-        bullet.transform.SetPositionAndRotation(_pdArray[(int)bulletType].muzzle.position, Quaternion.identity);
+        bullet.transform.SetPositionAndRotation(_pdArray[(int)bulletType].muzzle[index].position, Rotate);
     }
     #endregion
 }
