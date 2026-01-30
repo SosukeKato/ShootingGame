@@ -68,10 +68,6 @@ public class GameController : MonoBehaviour
     Vector2 _fieldClampX;
     [SerializeField,Header("Y軸の移動範囲制限(min,max)")]
     Vector2 _fieldClampY;
-    [SerializeField, Header("PlayerのX軸のあたり判定(min,max)")]
-    Vector2 _playerColX;
-    [SerializeField, Header("PlayerのY軸のあたり判定(min,max)")]
-    Vector2 _playerColY;
 
     #endregion
 
