@@ -54,6 +54,8 @@ public class GameController : MonoBehaviour
     Image _gameClearImage;
     [SerializeField, Header("Playerと照準の移動速度")]
     float _moveSpeed;
+    [SerializeField, Header("Enemyの横移動速度")]
+    float _enemyBesideMoveSpeed = 1;
     [SerializeField, Header("Playerの弾の移動速度")]
     float _playerBulletSpeed;
     [SerializeField, Header("敵の弾の移動速度")]
@@ -66,6 +68,8 @@ public class GameController : MonoBehaviour
     float _enemyToPlayerBulletCol;
     [SerializeField, Header("EnemyのMuzzleが回転する攻撃のInterval")]
     float _enemyMuzzleRotateAttackInterval;
+    [SerializeField, Header("Enemyが左右に移動しながら波状にばらまく攻撃のInterval")]
+    float _enemyWaveAttackInterval;
     [SerializeField, Header("Enemyの状態変化1段階目が終わる時間")]
     int _firstFormEndTime;
     [SerializeField, Header("EnemyのHPの最大値")]
@@ -87,11 +91,12 @@ public class GameController : MonoBehaviour
     int _enemyCurrentHP;
     int _enemyControlNumber;
 
-    float _enemyActionControlTimer;
+    float _enemyMuzzleRotateAttackControlTimer;
+    float _enemyWaveAttackControlTimer;
     float _anglePlus;
     float _angleMinus;
 
-    string _state;
+    string _activeScene;
 
     bool _isPause;
     bool _isLoading;
@@ -105,7 +110,12 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        #region 変数の初期化
+
         _enemyCurrentHP = _enemyMaxHP;
+        _activeScene = "Title";
+
+        #endregion
 
         #region コンポーネントの取得
 
@@ -237,14 +247,36 @@ public class GameController : MonoBehaviour
 
         #region Enemyの攻撃
 
-        _enemyActionControlTimer += Time.deltaTime;
+        #region Enemyを中心に回転しながら弾をばらまく攻撃
+
+        _enemyMuzzleRotateAttackControlTimer += Time.deltaTime;
         _anglePlus += Time.deltaTime * _enemyMuzzleRotateSpeed;
         _pdArray[(int)PoolType.EnemyBullet].muzzle[0].transform.rotation = Quaternion.Euler(0, 0, _anglePlus);
-        if (_enemyActionControlTimer >= _enemyMuzzleRotateAttackInterval)
+        if (_enemyMuzzleRotateAttackControlTimer >= _enemyMuzzleRotateAttackInterval)
         {
             SpawnBullet(PoolType.EnemyBullet, _pdArray[(int)PoolType.EnemyBullet].muzzle[0].transform.rotation, 0);
-            _enemyActionControlTimer = 0;
+            _enemyMuzzleRotateAttackControlTimer = 0;
         }
+
+        #endregion
+
+        #region Enemyが左右に移動しながら波状に行われる攻撃
+
+        _enemyWaveAttackControlTimer += Time.deltaTime;
+
+        _et.position += new Vector3(_enemyBesideMoveSpeed * Time.deltaTime, 0, 0);
+        if (_et.position.x >= _screenSize.x || _et.position.x <= -_screenSize.x)
+        {
+            _enemyBesideMoveSpeed += -1;
+        }
+
+        if (_enemyWaveAttackControlTimer >= _enemyWaveAttackInterval)
+        {
+            SpawnBullet(PoolType.EnemyBullet, Quaternion.identity, 0);
+            _enemyWaveAttackControlTimer = 0;
+        }
+
+        #endregion
 
         #region 敵の弾の移動
 
@@ -282,7 +314,7 @@ public class GameController : MonoBehaviour
                 ReturnBullet((int)PoolType.EnemyBullet, _pdArray[(int)PoolType.EnemyBullet].objectList[i]);
                 _pdArray[(int)PoolType.EnemyBullet].objectList.RemoveAt(i);
                 i--;
-                _state = "GameOver";
+                _activeScene = "GameOver";
                 Debug.Log("グエェェェ！死んだンゴ！");
             }
         }

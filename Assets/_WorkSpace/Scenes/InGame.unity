@@ -634,7 +634,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1000
+  m_SortingOrder: -3000
   m_TargetDisplay: 0
 --- !u!224 &485448854
 RectTransform:
@@ -843,12 +843,14 @@ MonoBehaviour:
   _gameOverImage: {fileID: 962054894}
   _gameClearImage: {fileID: 1330832061}
   _moveSpeed: 5
+  _enemyBesideMoveSpeed: 1
   _playerBulletSpeed: 10
   _enemyBulletSpeed: 2
   _enemyMuzzleRotateSpeed: 90
   _playerToEnemyBulletCol: 0.2
   _enemyToPlayerBulletCol: 1.5
   _enemyMuzzleRotateAttackInterval: 0.1
+  _enemyWaveAttackInterval: 0.1
   _firstFormEndTime: 0
   _enemyMaxHP: 1000
   _screenSize: {x: 9, y: 5}
@@ -1661,7 +1663,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1866362192
 RectTransform:
   m_ObjectHideFlags: 0
