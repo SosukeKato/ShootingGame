@@ -267,7 +267,7 @@ public class GameController : MonoBehaviour
         _et.position += new Vector3(_enemyBesideMoveSpeed * Time.deltaTime, 0, 0);
         if (_et.position.x >= _screenSize.x || _et.position.x <= -_screenSize.x)
         {
-            _enemyBesideMoveSpeed += -1;
+            _enemyBesideMoveSpeed *= -1;
         }
 
         if (_enemyWaveAttackControlTimer >= _enemyWaveAttackInterval)
