@@ -850,7 +850,7 @@ MonoBehaviour:
   _playerToEnemyBulletCol: 0.2
   _enemyToPlayerBulletCol: 1.5
   _enemyMuzzleRotateAttackInterval: 0.1
-  _enemyWaveAttackInterval: 0.1
+  _enemyWaveAttackInterval: 0.6
   _firstFormEndTime: 0
   _enemyMaxHP: 1000
   _screenSize: {x: 9, y: 5}
