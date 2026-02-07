@@ -19,6 +19,14 @@ public enum PoolType
     EnemyBullet = 1
 }
 
+public enum State
+{
+    Title = 0,
+    InGame = 1,
+    GameClear = 2,
+    GameOver = 3,
+}
+
 public class GameController : MonoBehaviour
 {
     #region コンポーネント取得用の変数
@@ -88,6 +96,7 @@ public class GameController : MonoBehaviour
     Vector2 _playerPosition;
     Vector2 _targetPosition;
 
+    int _state;
     int _enemyCurrentHP;
     int _enemyControlNumber;
 
@@ -95,8 +104,6 @@ public class GameController : MonoBehaviour
     float _enemyWaveAttackControlTimer;
     float _anglePlus;
     float _angleMinus;
-
-    string _activeScene;
 
     bool _isPause;
     bool _isLoading;
@@ -113,7 +120,7 @@ public class GameController : MonoBehaviour
         #region 変数の初期化
 
         _enemyCurrentHP = _enemyMaxHP;
-        _activeScene = "Title";
+        _state = (int)State.Title;
 
         #endregion
 
@@ -314,7 +321,7 @@ public class GameController : MonoBehaviour
                 ReturnBullet((int)PoolType.EnemyBullet, _pdArray[(int)PoolType.EnemyBullet].objectList[i]);
                 _pdArray[(int)PoolType.EnemyBullet].objectList.RemoveAt(i);
                 i--;
-                _activeScene = "GameOver";
+                _state = (int)State.GameOver;
                 Debug.Log("グエェェェ！死んだンゴ！");
             }
         }
